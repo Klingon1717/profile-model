@@ -22,3 +22,32 @@ var App = Backbone.Router.extend({
 
 var app = new App();
 Backbone.history.start();
+
+var $nameInput = $('#name');
+var $emailInput = $('#inputEamil3');
+var $roleInput = $('#role');
+
+$('#edit').find('button').click('submit',function(e){
+	e.preventDefault();
+	user.set({
+		
+		name: $nameInput.val(),
+		email:$emailInput.val(),
+		role: $roleInput.val()
+	})
+	console.log(user);
+	$.post(
+		'http://tiyfe.herokuapp.com/collections/lifeonvenus',
+		{
+			name: user.get('name'),
+			email: user.get('email'),
+			role: user.get('role')
+		},
+		'JSON'
+	);
+});
+user.on('change', function(){
+	$('.navbar-right .dropdown .dropdown-toggle ').text(user.get('name'));
+	$('.profile-usertitle-name').text(user.get('name'));
+	$('.profile-usertitle-job').text(user.get('role'));
+})
